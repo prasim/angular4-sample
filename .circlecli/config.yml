@@ -1,29 +1,9 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
-version: 2
-jobs:
-  build:
-    working_directory: ~/repo
-    docker:
-      - image: circleci/node:7.10.0
-
-    working_directory: ~/repo
-
-    steps:
-      - checkout
-      - run:
-          name: update-npm
-          command: 'sudo npm install -g npm@latest'
-      # Download and cache dependencies
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
-      - run:
-          override:
-            - nvm use 8.2.0 && npm test
+machine:
+  node:
+    version: 6
+dependencies:
+  pre:
+    - npm install -g @angular/cli
+test:
+  override:
+    - ng test --single-run
